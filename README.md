@@ -11,7 +11,7 @@ Depending on your configuration you would start the image with something like:
 ```bash
 docker run -d -p 8080:8080 \
   -v $(pwd)/otmonitor.conf:/data/otmonitor.conf
-  mc303/docker-otmonitor-aarch64:latest
+  mc303/otmonitor:latest
 ```
 
 ## More info
