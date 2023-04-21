@@ -1,4 +1,4 @@
-FROM python:3.10-slim-buster
+FROM python:3.8-slim-buster
 
 ARG TARGETPLATFORM
 RUN echo "TARGETPLATFORM : $TARGETPLATFORM"
@@ -17,7 +17,7 @@ RUN mkdir /app && mkdir /data \
   && if [ "$TARGETPLATFORM" = "linux/amd64" ] ; then XARCH="-x64" ; fi \
   && if [ "$TARGETPLATFORM" = "linux/arm/v5" ] ; then XARCH="-ahf" ; fi \
   && if [ "$TARGETPLATFORM" = "linux/arm/v7" ] ; then XARCH="-ahf" ; fi \
-  && if [ "$TARGETPLATFORM" = "linux/arm64/v8" ] ; then XARCH="-aarch64" ; fi \
+  && if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then XARCH="-aarch64" ; fi \
   && /usr/bin/wget http://otgw.tclcode.com/download/otmonitor$XARCH -O /app/otmonitor \
   && chmod +x /app/otmonitor
 
