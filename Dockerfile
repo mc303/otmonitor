@@ -15,7 +15,7 @@ RUN apt-get update \
 RUN mkdir /app && mkdir /data \
   && if [ "$TARGETPLATFORM" = "linux/386" ] ; then XARCH="" ; fi \
   && if [ "$TARGETPLATFORM" = "linux/amd64" ] ; then XARCH="-x64" ; fi \
-  && if [ "$TARGETPLATFORM" = "linux/arm/v6" ] ; then XARCH="-ahf" ; fi \
+  && if [ "$TARGETPLATFORM" = "linux/arm/v5" ] ; then XARCH="-ahf" ; fi \
   && if [ "$TARGETPLATFORM" = "linux/arm/v7" ] ; then XARCH="-ahf" ; fi \
   && if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then XARCH="-aarch64" ; fi \
   && /usr/bin/wget http://otgw.tclcode.com/download/otmonitor$XARCH -O /app/otmonitor \
