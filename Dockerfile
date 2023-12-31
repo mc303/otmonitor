@@ -1,11 +1,10 @@
-FROM python:3.10-slim-bullseye
+FROM cgr.dev/chainguard/wolfi-base
 
 ARG TARGETPLATFORM
 RUN echo "TARGETPLATFORM : $TARGETPLATFORM"
 
-RUN apt-get update \
-  && apt-get install -y wget python3-tk \
-  && rm -rf /var/lib/apt/lists/*
+RUN apk add tzdata
+RUN mkdir -p /usr/local/bin; mkdir -p -m a=rwx /data /log
   
 #x86      https://otgw.tclcode.com/download/otmonitor
 #x86-64   https://otgw.tclcode.com/download/otmonitor-x64
@@ -16,9 +15,14 @@ RUN mkdir /app && mkdir /data \
   && if [ "$TARGETPLATFORM" = "linux/386" ] ; then XARCH="" ; fi \
   && if [ "$TARGETPLATFORM" = "linux/amd64" ] ; then XARCH="-x64" ; fi \
   && if [ "$TARGETPLATFORM" = "linux/arm/v5" ] ; then XARCH="-ahf" ; fi \
+  && if [ "$TARGETPLATFORM" = "linux/arm/v6" ] ; then XARCH="-ahf" ; fi \
   && if [ "$TARGETPLATFORM" = "linux/arm/v7" ] ; then XARCH="-ahf" ; fi \
   && if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then XARCH="-aarch64" ; fi \
-  && /usr/bin/wget http://otgw.tclcode.com/download/otmonitor$XARCH -O /app/otmonitor \
-  && chmod +x /app/otmonitor
+  && /usr/bin/wget http://otgw.tclcode.com/download/otmonitor$XARCH -O /usr/local/bin/otmonitor \
+  && chmod +x /usr/local/bin/otmonitor
 
-CMD ["/app/otmonitor", "--daemon", "-f", "/data/otmonitor.conf"]
+EXPOSE 8080
+
+ENTRYPOINT ["otmonitor", "--daemon", "--dbfile=/data/auth.db", "-f/data/otmonitor.conf"]
+CMD ["-w8080"]
+WORKDIR /log
